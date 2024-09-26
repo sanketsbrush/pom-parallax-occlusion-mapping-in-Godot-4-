@@ -1,40 +1,366 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddugpcb7hq0fw"]
+[gd_scene load_steps=46 format=3 uid="uid://ddugpcb7hq0fw"]
 
-[ext_resource type="PackedScene" uid="uid://ca2rxetgj2bdj" path="res://simple_pom.tscn" id="1_n4em2"]
+[ext_resource type="PackedScene" uid="uid://dwc2ypc8a641n" path="res://simple pom/simple_pom.tscn" id="1_585ov"]
+[ext_resource type="Texture2D" uid="uid://dc3qg5gk53x2f" path="res://image textures/rock texture/rock2_albedo.png" id="2_i2qaf"]
+[ext_resource type="Texture2D" uid="uid://d3uvk7v1u8udm" path="res://image textures/rock texture/rock2_heightmap.png" id="3_457mv"]
+[ext_resource type="Texture2D" uid="uid://ucuygfugjwr" path="res://image textures/rock texture/rock2_normal.png" id="4_5rwko"]
+[ext_resource type="Texture2D" uid="uid://btb33ccwoo0m" path="res://image textures/rock texture/rock2_orm.png" id="5_m48ns"]
+[ext_resource type="Texture2D" uid="uid://cn0tsri0rqg28" path="res://image textures/rock 2 texture/gray_rocks_diff_1k.jpg" id="14_e4feq"]
+[ext_resource type="Texture2D" uid="uid://ic2b4qws7xu2" path="res://image textures/rock 2 texture/gray_rocks_disp_1k.jpg" id="15_2nnvi"]
+[ext_resource type="Texture2D" uid="uid://fttrbd1be2s1" path="res://image textures/rock 2 texture/gray_rocks_nor_gl_1k.jpg" id="16_rc50f"]
+[ext_resource type="Texture2D" uid="uid://c3xu2prq4mlpp" path="res://image textures/rock 2 texture/gray_rocks_arm_1k.jpg" id="17_4wrog"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_3s8sp"]
-size = Vector2(10, 10)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qopg5"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_sc8mx"]
-radius = 1.0
-height = 2.0
+[sub_resource type="Sky" id="Sky_xo1kc"]
+sky_material = SubResource("ProceduralSkyMaterial_qopg5")
 
-[sub_resource type="BoxMesh" id="BoxMesh_m5i5p"]
-size = Vector3(2, 2, 2)
+[sub_resource type="Environment" id="Environment_jtr0h"]
+background_mode = 2
+sky = SubResource("Sky_xo1kc")
+tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_cascades = 2
+sdfgi_min_cell_size = 0.1
+sdfgi_y_scale = 0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_80p17"]
+[sub_resource type="Gradient" id="Gradient_miuj1"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
-[sub_resource type="MultiMesh" id="MultiMesh_2oetd"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kv1fh"]
+gradient = SubResource("Gradient_miuj1")
+width = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kngyx"]
+texture = SubResource("GradientTexture1D_kv1fh")
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_fo8vl"]
+parameter_name = "orm"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_igvk0"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_tgg81"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_vu5pp"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_kkvap"]
+function = 1
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_0mf61"]
+parameter_name = "UV_scale"
+default_value_enabled = true
+default_value = Vector2(1.5, 1)
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_klvht"]
+parameter_name = "UV_pan"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_8lwp6"]
+default_input_values = [0, 0.0, 1, 0.04]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_o7tbj"]
+parameter_name = "adjust_alpha"
+hint = 1
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_3i20e"]
+parameter_name = "color"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ntk6n"]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_xjbiu"]
+parameter_name = "depth"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_5qou5"]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_ct1k7"]
+parameter_name = "normal"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8l5px"]
+source = 5
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ho37c"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_x7utm"]
+input_name = "normal"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_81kcr"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_tiprd"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_y3a8r"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_o5e6k"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ggll5"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_odwdy"]
+parameter_name = "layer_gap"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShader" id="VisualShader_j162q"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform float layer_gap = 0.5;
+uniform vec2 UV_scale = vec2(1.500000, 1.000000);
+uniform vec2 UV_pan;
+uniform sampler2D color : source_color;
+uniform sampler2D depth;
+uniform float adjust_alpha : hint_range(0, 1) = 0;
+uniform sampler2D orm : hint_normal;
+uniform sampler2D normal : hint_normal;
+uniform sampler2D tex_frg_11;
+
+
+
+void vertex() {
+// Input:2
+	vec3 n_out2p0 = NORMAL;
+
+
+// Input:5
+	vec4 n_out5p0 = COLOR;
+
+
+// FloatFunc:6
+	float n_out6p0 = 1.0 - n_out5p0.x;
+
+
+// FloatParameter:8
+	float n_out8p0 = layer_gap;
+
+
+// FloatOp:7
+	float n_out7p0 = n_out6p0 * n_out8p0;
+
+
+// Input:3
+	vec3 n_out3p0 = VERTEX;
+
+
+// MultiplyAdd:4
+	vec3 n_out4p0 = fma(n_out2p0, vec3(n_out7p0), n_out3p0);
+
+
+// Output:0
+	VERTEX = n_out4p0;
+
+
+}
+
+void fragment() {
+// Vector2Parameter:21
+	vec2 n_out21p0 = UV_scale;
+
+
+// UVFunc:20
+	vec2 n_in20p2 = vec2(0.00000, 0.00000);
+	vec2 n_out20p0 = (UV - n_in20p2) * n_out21p0 + n_in20p2;
+
+
+// Vector2Parameter:22
+	vec2 n_out22p0 = UV_pan;
+
+
+// UVFunc:19
+	vec2 n_in19p1 = vec2(1.00000, 1.00000);
+	vec2 n_out19p0 = n_out22p0 * n_in19p1 + n_out20p0;
+
+
+	vec4 n_out4p0;
+// Texture2D:4
+	n_out4p0 = texture(color, n_out19p0);
+
+
+	vec4 n_out6p0;
+// Texture2D:6
+	n_out6p0 = texture(depth, n_out19p0);
+
+
+// Input:2
+	vec4 n_out2p0 = COLOR;
+
+
+// FloatOp:9
+	float n_out9p0 = n_out6p0.x + n_out2p0.x;
+
+
+// FloatParameter:24
+	float n_out24p0 = adjust_alpha;
+
+
+// FloatOp:23
+	float n_out23p0 = n_out9p0 + n_out24p0;
+
+
+	vec4 n_out18p0;
+// Texture2D:18
+	n_out18p0 = texture(orm, n_out19p0);
+	float n_out18p1 = n_out18p0.r;
+	float n_out18p2 = n_out18p0.g;
+	float n_out18p3 = n_out18p0.b;
+
+
+	vec4 n_out8p0;
+// Texture2D:8
+	n_out8p0 = texture(normal, n_out19p0);
+
+
+// Texture2D:11
+	vec4 n_out11p0 = texture(tex_frg_11, UV);
+
+
+// Output:0
+	ALBEDO = vec3(n_out4p0.xyz);
+	ALPHA = n_out23p0;
+	METALLIC = n_out18p3;
+	ROUGHNESS = n_out18p2;
+	AO = n_out18p1;
+	NORMAL_MAP = vec3(n_out8p0.xyz);
+	ALPHA_SCISSOR_THRESHOLD = n_out11p0.x;
+
+
+}
+"
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_x7utm")
+nodes/vertex/2/position = Vector2(-200, 140)
+nodes/vertex/3/node = SubResource("VisualShaderNodeInput_81kcr")
+nodes/vertex/3/position = Vector2(-200, 420)
+nodes/vertex/4/node = SubResource("VisualShaderNodeMultiplyAdd_tiprd")
+nodes/vertex/4/position = Vector2(160, 220)
+nodes/vertex/5/node = SubResource("VisualShaderNodeInput_y3a8r")
+nodes/vertex/5/position = Vector2(-560, 240)
+nodes/vertex/6/node = SubResource("VisualShaderNodeFloatFunc_o5e6k")
+nodes/vertex/6/position = Vector2(-260, 240)
+nodes/vertex/7/node = SubResource("VisualShaderNodeFloatOp_ggll5")
+nodes/vertex/7/position = Vector2(-80, 240)
+nodes/vertex/8/node = SubResource("VisualShaderNodeFloatParameter_odwdy")
+nodes/vertex/8/position = Vector2(-520, 340)
+nodes/vertex/connections = PackedInt32Array(2, 0, 4, 0, 4, 0, 0, 0, 3, 0, 4, 2, 5, 0, 6, 0, 6, 0, 7, 0, 7, 0, 4, 1, 8, 0, 7, 1)
+nodes/fragment/0/position = Vector2(1920, 320)
+nodes/fragment/2/node = SubResource("VisualShaderNodeInput_vu5pp")
+nodes/fragment/2/position = Vector2(500, 340)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_3i20e")
+nodes/fragment/3/position = Vector2(180, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_ntk6n")
+nodes/fragment/4/position = Vector2(500, -200)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_xjbiu")
+nodes/fragment/5/position = Vector2(180, 140)
+nodes/fragment/6/node = SubResource("VisualShaderNodeTexture_5qou5")
+nodes/fragment/6/position = Vector2(500, 140)
+nodes/fragment/7/node = SubResource("VisualShaderNodeTexture2DParameter_ct1k7")
+nodes/fragment/7/position = Vector2(180, 780)
+nodes/fragment/8/node = SubResource("VisualShaderNodeTexture_8l5px")
+nodes/fragment/8/position = Vector2(500, 780)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_ho37c")
+nodes/fragment/9/position = Vector2(760, 140)
+nodes/fragment/11/node = SubResource("VisualShaderNodeTexture_kngyx")
+nodes/fragment/11/position = Vector2(180, 1080)
+nodes/fragment/17/node = SubResource("VisualShaderNodeTexture2DParameter_fo8vl")
+nodes/fragment/17/position = Vector2(180, 480)
+nodes/fragment/18/node = SubResource("VisualShaderNodeTexture_igvk0")
+nodes/fragment/18/position = Vector2(500, 480)
+nodes/fragment/19/node = SubResource("VisualShaderNodeUVFunc_tgg81")
+nodes/fragment/19/position = Vector2(-260, 80)
+nodes/fragment/20/node = SubResource("VisualShaderNodeUVFunc_kkvap")
+nodes/fragment/20/position = Vector2(-480, -120)
+nodes/fragment/21/node = SubResource("VisualShaderNodeVec2Parameter_0mf61")
+nodes/fragment/21/position = Vector2(-780, -180)
+nodes/fragment/22/node = SubResource("VisualShaderNodeVec2Parameter_klvht")
+nodes/fragment/22/position = Vector2(-540, 80)
+nodes/fragment/23/node = SubResource("VisualShaderNodeFloatOp_8lwp6")
+nodes/fragment/23/position = Vector2(1180, 280)
+nodes/fragment/24/node = SubResource("VisualShaderNodeFloatParameter_o7tbj")
+nodes/fragment/24/position = Vector2(820, 320)
+nodes/fragment/connections = PackedInt32Array(7, 0, 8, 2, 3, 0, 4, 2, 5, 0, 6, 2, 8, 0, 0, 9, 17, 0, 18, 2, 18, 1, 0, 6, 18, 2, 0, 3, 18, 3, 0, 2, 4, 0, 0, 0, 2, 0, 9, 1, 6, 0, 9, 0, 11, 0, 0, 19, 20, 0, 19, 0, 22, 0, 19, 2, 19, 0, 4, 0, 19, 0, 6, 0, 21, 0, 20, 1, 19, 0, 18, 0, 19, 0, 8, 0, 9, 0, 23, 0, 23, 0, 0, 1, 24, 0, 23, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8bxfe"]
+render_priority = 0
+shader = SubResource("VisualShader_j162q")
+shader_parameter/layer_gap = 0.355
+shader_parameter/UV_scale = Vector2(1, 1)
+shader_parameter/UV_pan = Vector2(0, 0)
+shader_parameter/adjust_alpha = 0.05
+shader_parameter/color = ExtResource("14_e4feq")
+shader_parameter/depth = ExtResource("15_2nnvi")
+shader_parameter/orm = ExtResource("17_4wrog")
+shader_parameter/normal = ExtResource("16_rc50f")
+
+[sub_resource type="TorusMesh" id="TorusMesh_jx6sl"]
+rings = 16
+ring_segments = 8
+
+[sub_resource type="MultiMesh" id="MultiMesh_5g6yi"]
 transform_format = 1
 use_colors = true
 instance_count = 50
-mesh = SubResource("PlaneMesh_80p17")
-buffer = PackedFloat32Array(1, 0, 0, 0, 0, 1, 0, 0.25, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.245, 0, 0, 1, 0, 0.02, 0.02, 0.02, 0.02, 1, 0, 0, 0, 0, 1, 0, 0.24, 0, 0, 1, 0, 0.04, 0.04, 0.04, 0.04, 1, 0, 0, 0, 0, 1, 0, 0.235, 0, 0, 1, 0, 0.06, 0.06, 0.06, 0.06, 1, 0, 0, 0, 0, 1, 0, 0.23, 0, 0, 1, 0, 0.08, 0.08, 0.08, 0.08, 1, 0, 0, 0, 0, 1, 0, 0.225, 0, 0, 1, 0, 0.1, 0.1, 0.1, 0.1, 1, 0, 0, 0, 0, 1, 0, 0.22, 0, 0, 1, 0, 0.12, 0.12, 0.12, 0.12, 1, 0, 0, 0, 0, 1, 0, 0.215, 0, 0, 1, 0, 0.14, 0.14, 0.14, 0.14, 1, 0, 0, 0, 0, 1, 0, 0.21, 0, 0, 1, 0, 0.16, 0.16, 0.16, 0.16, 1, 0, 0, 0, 0, 1, 0, 0.205, 0, 0, 1, 0, 0.18, 0.18, 0.18, 0.18, 1, 0, 0, 0, 0, 1, 0, 0.2, 0, 0, 1, 0, 0.2, 0.2, 0.2, 0.2, 1, 0, 0, 0, 0, 1, 0, 0.195, 0, 0, 1, 0, 0.22, 0.22, 0.22, 0.22, 1, 0, 0, 0, 0, 1, 0, 0.19, 0, 0, 1, 0, 0.24, 0.24, 0.24, 0.24, 1, 0, 0, 0, 0, 1, 0, 0.185, 0, 0, 1, 0, 0.26, 0.26, 0.26, 0.26, 1, 0, 0, 0, 0, 1, 0, 0.18, 0, 0, 1, 0, 0.28, 0.28, 0.28, 0.28, 1, 0, 0, 0, 0, 1, 0, 0.175, 0, 0, 1, 0, 0.3, 0.3, 0.3, 0.3, 1, 0, 0, 0, 0, 1, 0, 0.17, 0, 0, 1, 0, 0.32, 0.32, 0.32, 0.32, 1, 0, 0, 0, 0, 1, 0, 0.165, 0, 0, 1, 0, 0.34, 0.34, 0.34, 0.34, 1, 0, 0, 0, 0, 1, 0, 0.16, 0, 0, 1, 0, 0.36, 0.36, 0.36, 0.36, 1, 0, 0, 0, 0, 1, 0, 0.155, 0, 0, 1, 0, 0.38, 0.38, 0.38, 0.38, 1, 0, 0, 0, 0, 1, 0, 0.15, 0, 0, 1, 0, 0.4, 0.4, 0.4, 0.4, 1, 0, 0, 0, 0, 1, 0, 0.145, 0, 0, 1, 0, 0.42, 0.42, 0.42, 0.42, 1, 0, 0, 0, 0, 1, 0, 0.14, 0, 0, 1, 0, 0.44, 0.44, 0.44, 0.44, 1, 0, 0, 0, 0, 1, 0, 0.135, 0, 0, 1, 0, 0.46, 0.46, 0.46, 0.46, 1, 0, 0, 0, 0, 1, 0, 0.13, 0, 0, 1, 0, 0.48, 0.48, 0.48, 0.48, 1, 0, 0, 0, 0, 1, 0, 0.125, 0, 0, 1, 0, 0.5, 0.5, 0.5, 0.5, 1, 0, 0, 0, 0, 1, 0, 0.12, 0, 0, 1, 0, 0.52, 0.52, 0.52, 0.52, 1, 0, 0, 0, 0, 1, 0, 0.115, 0, 0, 1, 0, 0.54, 0.54, 0.54, 0.54, 1, 0, 0, 0, 0, 1, 0, 0.11, 0, 0, 1, 0, 0.56, 0.56, 0.56, 0.56, 1, 0, 0, 0, 0, 1, 0, 0.105, 0, 0, 1, 0, 0.58, 0.58, 0.58, 0.58, 1, 0, 0, 0, 0, 1, 0, 0.1, 0, 0, 1, 0, 0.6, 0.6, 0.6, 0.6, 1, 0, 0, 0, 0, 1, 0, 0.095, 0, 0, 1, 0, 0.62, 0.62, 0.62, 0.62, 1, 0, 0, 0, 0, 1, 0, 0.09, 0, 0, 1, 0, 0.64, 0.64, 0.64, 0.64, 1, 0, 0, 0, 0, 1, 0, 0.085, 0, 0, 1, 0, 0.66, 0.66, 0.66, 0.66, 1, 0, 0, 0, 0, 1, 0, 0.08, 0, 0, 1, 0, 0.68, 0.68, 0.68, 0.68, 1, 0, 0, 0, 0, 1, 0, 0.075, 0, 0, 1, 0, 0.7, 0.7, 0.7, 0.7, 1, 0, 0, 0, 0, 1, 0, 0.07, 0, 0, 1, 0, 0.72, 0.72, 0.72, 0.72, 1, 0, 0, 0, 0, 1, 0, 0.065, 0, 0, 1, 0, 0.74, 0.74, 0.74, 0.74, 1, 0, 0, 0, 0, 1, 0, 0.06, 0, 0, 1, 0, 0.76, 0.76, 0.76, 0.76, 1, 0, 0, 0, 0, 1, 0, 0.055, 0, 0, 1, 0, 0.78, 0.78, 0.78, 0.78, 1, 0, 0, 0, 0, 1, 0, 0.05, 0, 0, 1, 0, 0.8, 0.8, 0.8, 0.8, 1, 0, 0, 0, 0, 1, 0, 0.045, 0, 0, 1, 0, 0.82, 0.82, 0.82, 0.82, 1, 0, 0, 0, 0, 1, 0, 0.04, 0, 0, 1, 0, 0.84, 0.84, 0.84, 0.84, 1, 0, 0, 0, 0, 1, 0, 0.035, 0, 0, 1, 0, 0.86, 0.86, 0.86, 0.86, 1, 0, 0, 0, 0, 1, 0, 0.03, 0, 0, 1, 0, 0.88, 0.88, 0.88, 0.88, 1, 0, 0, 0, 0, 1, 0, 0.025, 0, 0, 1, 0, 0.9, 0.9, 0.9, 0.9, 1, 0, 0, 0, 0, 1, 0, 0.02, 0, 0, 1, 0, 0.92, 0.92, 0.92, 0.92, 1, 0, 0, 0, 0, 1, 0, 0.015, 0, 0, 1, 0, 0.94, 0.94, 0.94, 0.94, 1, 0, 0, 0, 0, 1, 0, 0.01, 0, 0, 1, 0, 0.96, 0.96, 0.96, 0.96, 1, 0, 0, 0, 0, 1, 0, 0.005, 0, 0, 1, 0, 0.98, 0.98, 0.98, 0.98)
+mesh = SubResource("TorusMesh_jx6sl")
+buffer = PackedFloat32Array(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.02, 0.02, 0.02, 0.02, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.04, 0.04, 0.04, 0.04, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.06, 0.06, 0.06, 0.06, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.08, 0.08, 0.08, 0.08, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.1, 0.1, 0.1, 0.1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.12, 0.12, 0.12, 0.12, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.14, 0.14, 0.14, 0.14, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.16, 0.16, 0.16, 0.16, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.18, 0.18, 0.18, 0.18, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.2, 0.2, 0.2, 0.2, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.22, 0.22, 0.22, 0.22, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.24, 0.24, 0.24, 0.24, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.26, 0.26, 0.26, 0.26, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.28, 0.28, 0.28, 0.28, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.3, 0.3, 0.3, 0.3, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.32, 0.32, 0.32, 0.32, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.34, 0.34, 0.34, 0.34, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.36, 0.36, 0.36, 0.36, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.38, 0.38, 0.38, 0.38, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.4, 0.4, 0.4, 0.4, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.42, 0.42, 0.42, 0.42, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.44, 0.44, 0.44, 0.44, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.46, 0.46, 0.46, 0.46, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.48, 0.48, 0.48, 0.48, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.5, 0.5, 0.5, 0.5, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.52, 0.52, 0.52, 0.52, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.54, 0.54, 0.54, 0.54, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.56, 0.56, 0.56, 0.56, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.58, 0.58, 0.58, 0.58, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.6, 0.6, 0.6, 0.6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.62, 0.62, 0.62, 0.62, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.64, 0.64, 0.64, 0.64, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.66, 0.66, 0.66, 0.66, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.68, 0.68, 0.68, 0.68, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.7, 0.7, 0.7, 0.7, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.72, 0.72, 0.72, 0.72, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.74, 0.74, 0.74, 0.74, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.76, 0.76, 0.76, 0.76, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.78, 0.78, 0.78, 0.78, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.8, 0.8, 0.8, 0.8, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.82, 0.82, 0.82, 0.82, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.84, 0.84, 0.84, 0.84, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.86, 0.86, 0.86, 0.86, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.88, 0.88, 0.88, 0.88, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.9, 0.9, 0.9, 0.9, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.92, 0.92, 0.92, 0.92, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.94, 0.94, 0.94, 0.94, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.96, 0.96, 0.96, 0.96, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.98, 0.98, 0.98, 0.98)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1tckq"]
+render_priority = 0
+shader = SubResource("VisualShader_j162q")
+shader_parameter/layer_gap = 0.5
+shader_parameter/UV_scale = Vector2(1.5, 1)
+shader_parameter/UV_pan = Vector2(0, 0)
+shader_parameter/adjust_alpha = 0.045
+shader_parameter/color = ExtResource("2_i2qaf")
+shader_parameter/depth = ExtResource("3_457mv")
+shader_parameter/orm = ExtResource("5_m48ns")
+shader_parameter/normal = ExtResource("4_5rwko")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k3qmj"]
+size = Vector2(5, 5)
+
+[sub_resource type="MultiMesh" id="MultiMesh_iao4l"]
+transform_format = 1
+use_colors = true
+instance_count = 50
+mesh = SubResource("PlaneMesh_k3qmj")
+buffer = PackedFloat32Array(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.02, 0.02, 0.02, 0.02, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.04, 0.04, 0.04, 0.04, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.06, 0.06, 0.06, 0.06, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.08, 0.08, 0.08, 0.08, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.1, 0.1, 0.1, 0.1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.12, 0.12, 0.12, 0.12, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.14, 0.14, 0.14, 0.14, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.16, 0.16, 0.16, 0.16, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.18, 0.18, 0.18, 0.18, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.2, 0.2, 0.2, 0.2, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.22, 0.22, 0.22, 0.22, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.24, 0.24, 0.24, 0.24, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.26, 0.26, 0.26, 0.26, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.28, 0.28, 0.28, 0.28, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.3, 0.3, 0.3, 0.3, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.32, 0.32, 0.32, 0.32, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.34, 0.34, 0.34, 0.34, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.36, 0.36, 0.36, 0.36, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.38, 0.38, 0.38, 0.38, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.4, 0.4, 0.4, 0.4, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.42, 0.42, 0.42, 0.42, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.44, 0.44, 0.44, 0.44, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.46, 0.46, 0.46, 0.46, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.48, 0.48, 0.48, 0.48, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.5, 0.5, 0.5, 0.5, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.52, 0.52, 0.52, 0.52, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.54, 0.54, 0.54, 0.54, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.56, 0.56, 0.56, 0.56, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.58, 0.58, 0.58, 0.58, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.6, 0.6, 0.6, 0.6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.62, 0.62, 0.62, 0.62, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.64, 0.64, 0.64, 0.64, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.66, 0.66, 0.66, 0.66, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.68, 0.68, 0.68, 0.68, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.7, 0.7, 0.7, 0.7, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.72, 0.72, 0.72, 0.72, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.74, 0.74, 0.74, 0.74, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.76, 0.76, 0.76, 0.76, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.78, 0.78, 0.78, 0.78, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.8, 0.8, 0.8, 0.8, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.82, 0.82, 0.82, 0.82, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.84, 0.84, 0.84, 0.84, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.86, 0.86, 0.86, 0.86, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.88, 0.88, 0.88, 0.88, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.9, 0.9, 0.9, 0.9, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.92, 0.92, 0.92, 0.92, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.94, 0.94, 0.94, 0.94, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.96, 0.96, 0.96, 0.96, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.98, 0.98, 0.98, 0.98)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_3s8sp")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jtr0h")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
-mesh = SubResource("SphereMesh_sc8mx")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, 0.612373, 0.612373, 0, -0.707107, 0.707107, 0.866025, -0.353553, -0.353553, 0, 0, 0)
+shadow_enabled = true
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
-mesh = SubResource("BoxMesh_m5i5p")
+[node name="rock" parent="." instance=ExtResource("1_585ov")]
+transform = Transform3D(0.965925, 0.258819, -1.13133e-08, 0, -4.37114e-08, -1, -0.258819, 0.965926, -4.2222e-08, 0, 1, 0)
+material_override = SubResource("ShaderMaterial_8bxfe")
+cast_shadow = 1
+multimesh = SubResource("MultiMesh_5g6yi")
+POM_layers = 50
+mesh = SubResource("TorusMesh_jx6sl")
 
-[node name="simple POM" parent="." instance=ExtResource("1_n4em2")]
-transform = Transform3D(5, 0, 0, 0, 6.16, 0, 0, 0, 5, 0, 0, 0)
-cast_shadow = 0
-multimesh = SubResource("MultiMesh_2oetd")
+[node name="land" parent="." instance=ExtResource("1_585ov")]
+material_override = SubResource("ShaderMaterial_1tckq")
+cast_shadow = 1
+multimesh = SubResource("MultiMesh_iao4l")
+POM_layers = 50
+mesh = SubResource("PlaneMesh_k3qmj")
