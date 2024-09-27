@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ddugpcb7hq0fw"]
+[gd_scene load_steps=44 format=3 uid="uid://ddugpcb7hq0fw"]
 
 [ext_resource type="PackedScene" uid="uid://dwc2ypc8a641n" path="res://simple pom/simple_pom.tscn" id="1_585ov"]
 [ext_resource type="Texture2D" uid="uid://dc3qg5gk53x2f" path="res://image textures/rock texture/rock2_albedo.png" id="2_i2qaf"]
@@ -29,17 +29,6 @@ sdfgi_use_occlusion = true
 sdfgi_cascades = 2
 sdfgi_min_cell_size = 0.1
 sdfgi_y_scale = 0
-
-[sub_resource type="Gradient" id="Gradient_miuj1"]
-interpolation_mode = 1
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_kv1fh"]
-gradient = SubResource("Gradient_miuj1")
-width = 1
-
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kngyx"]
-texture = SubResource("GradientTexture1D_kv1fh")
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_fo8vl"]
 parameter_name = "orm"
@@ -72,6 +61,9 @@ default_input_values = [0, 0.0, 1, 0.04]
 parameter_name = "adjust_alpha"
 hint = 1
 default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeBooleanConstant" id="VisualShaderNodeBooleanConstant_i1h7u"]
+constant = true
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_3i20e"]
 parameter_name = "color"
@@ -131,7 +123,6 @@ uniform sampler2D depth;
 uniform float adjust_alpha : hint_range(0, 1) = 0;
 uniform sampler2D orm : hint_normal;
 uniform sampler2D normal : hint_normal;
-uniform sampler2D tex_frg_11;
 
 
 
@@ -228,8 +219,8 @@ void fragment() {
 	n_out8p0 = texture(normal, n_out19p0);
 
 
-// Texture2D:11
-	vec4 n_out11p0 = texture(tex_frg_11, UV);
+// BooleanConstant:26
+	bool n_out26p0 = true;
 
 
 // Output:0
@@ -239,7 +230,7 @@ void fragment() {
 	ROUGHNESS = n_out18p2;
 	AO = n_out18p1;
 	NORMAL_MAP = vec3(n_out8p0.xyz);
-	ALPHA_SCISSOR_THRESHOLD = n_out11p0.x;
+	ALPHA_SCISSOR_THRESHOLD = (n_out26p0 ? 1.0 : 0.0);
 
 
 }
@@ -276,8 +267,6 @@ nodes/fragment/8/node = SubResource("VisualShaderNodeTexture_8l5px")
 nodes/fragment/8/position = Vector2(500, 780)
 nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_ho37c")
 nodes/fragment/9/position = Vector2(760, 140)
-nodes/fragment/11/node = SubResource("VisualShaderNodeTexture_kngyx")
-nodes/fragment/11/position = Vector2(180, 1080)
 nodes/fragment/17/node = SubResource("VisualShaderNodeTexture2DParameter_fo8vl")
 nodes/fragment/17/position = Vector2(180, 480)
 nodes/fragment/18/node = SubResource("VisualShaderNodeTexture_igvk0")
@@ -294,13 +283,15 @@ nodes/fragment/23/node = SubResource("VisualShaderNodeFloatOp_8lwp6")
 nodes/fragment/23/position = Vector2(1180, 280)
 nodes/fragment/24/node = SubResource("VisualShaderNodeFloatParameter_o7tbj")
 nodes/fragment/24/position = Vector2(820, 320)
-nodes/fragment/connections = PackedInt32Array(7, 0, 8, 2, 3, 0, 4, 2, 5, 0, 6, 2, 8, 0, 0, 9, 17, 0, 18, 2, 18, 1, 0, 6, 18, 2, 0, 3, 18, 3, 0, 2, 4, 0, 0, 0, 2, 0, 9, 1, 6, 0, 9, 0, 11, 0, 0, 19, 20, 0, 19, 0, 22, 0, 19, 2, 19, 0, 4, 0, 19, 0, 6, 0, 21, 0, 20, 1, 19, 0, 18, 0, 19, 0, 8, 0, 9, 0, 23, 0, 23, 0, 0, 1, 24, 0, 23, 1)
+nodes/fragment/26/node = SubResource("VisualShaderNodeBooleanConstant_i1h7u")
+nodes/fragment/26/position = Vector2(1720, 1000)
+nodes/fragment/connections = PackedInt32Array(7, 0, 8, 2, 3, 0, 4, 2, 5, 0, 6, 2, 8, 0, 0, 9, 17, 0, 18, 2, 18, 1, 0, 6, 18, 2, 0, 3, 18, 3, 0, 2, 4, 0, 0, 0, 2, 0, 9, 1, 6, 0, 9, 0, 20, 0, 19, 0, 22, 0, 19, 2, 19, 0, 4, 0, 19, 0, 6, 0, 21, 0, 20, 1, 19, 0, 18, 0, 19, 0, 8, 0, 9, 0, 23, 0, 23, 0, 0, 1, 24, 0, 23, 1, 26, 0, 0, 19)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8bxfe"]
 render_priority = 0
 shader = SubResource("VisualShader_j162q")
-shader_parameter/layer_gap = 0.355
-shader_parameter/UV_scale = Vector2(1, 1)
+shader_parameter/layer_gap = 0.405
+shader_parameter/UV_scale = Vector2(1, 0.5)
 shader_parameter/UV_pan = Vector2(0, 0)
 shader_parameter/adjust_alpha = 0.05
 shader_parameter/color = ExtResource("14_e4feq")
@@ -312,7 +303,7 @@ shader_parameter/normal = ExtResource("16_rc50f")
 rings = 16
 ring_segments = 8
 
-[sub_resource type="MultiMesh" id="MultiMesh_5g6yi"]
+[sub_resource type="MultiMesh" id="MultiMesh_wd3xh"]
 transform_format = 1
 use_colors = true
 instance_count = 50
@@ -322,10 +313,10 @@ buffer = PackedFloat32Array(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1tckq"]
 render_priority = 0
 shader = SubResource("VisualShader_j162q")
-shader_parameter/layer_gap = 0.5
-shader_parameter/UV_scale = Vector2(1.5, 1)
-shader_parameter/UV_pan = Vector2(0, 0)
-shader_parameter/adjust_alpha = 0.045
+shader_parameter/layer_gap = 0.385
+shader_parameter/UV_scale = Vector2(2, 2)
+shader_parameter/UV_pan = Vector2(0.04, 0.18)
+shader_parameter/adjust_alpha = 0.042
 shader_parameter/color = ExtResource("2_i2qaf")
 shader_parameter/depth = ExtResource("3_457mv")
 shader_parameter/orm = ExtResource("5_m48ns")
@@ -334,7 +325,7 @@ shader_parameter/normal = ExtResource("4_5rwko")
 [sub_resource type="PlaneMesh" id="PlaneMesh_k3qmj"]
 size = Vector2(5, 5)
 
-[sub_resource type="MultiMesh" id="MultiMesh_iao4l"]
+[sub_resource type="MultiMesh" id="MultiMesh_duip3"]
 transform_format = 1
 use_colors = true
 instance_count = 50
@@ -351,16 +342,16 @@ transform = Transform3D(0.5, 0.612373, 0.612373, 0, -0.707107, 0.707107, 0.86602
 shadow_enabled = true
 
 [node name="rock" parent="." instance=ExtResource("1_585ov")]
-transform = Transform3D(0.965925, 0.258819, -1.13133e-08, 0, -4.37114e-08, -1, -0.258819, 0.965926, -4.2222e-08, 0, 1, 0)
+transform = Transform3D(0.258819, 0.965926, -4.2222e-08, 0, -4.37114e-08, -1, -0.965925, 0.258819, -1.13134e-08, 0, 1, 0)
 material_override = SubResource("ShaderMaterial_8bxfe")
 cast_shadow = 1
-multimesh = SubResource("MultiMesh_5g6yi")
+multimesh = SubResource("MultiMesh_wd3xh")
 POM_layers = 50
 mesh = SubResource("TorusMesh_jx6sl")
 
 [node name="land" parent="." instance=ExtResource("1_585ov")]
 material_override = SubResource("ShaderMaterial_1tckq")
 cast_shadow = 1
-multimesh = SubResource("MultiMesh_iao4l")
+multimesh = SubResource("MultiMesh_duip3")
 POM_layers = 50
 mesh = SubResource("PlaneMesh_k3qmj")
